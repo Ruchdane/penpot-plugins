@@ -1,0 +1,9 @@
+{
+  "name": "@libs/hooks",
+  "module": "src/index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5.0.0",
+    "react": "^18.2.0"
+  }
+}

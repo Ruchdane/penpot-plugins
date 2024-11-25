@@ -1,0 +1,21 @@
+.pack-title {
+
+}
+.pack-title::after {
+    content:'';
+    z-index: 1;
+    position: absolute;
+    inset:0;
+}
+
+.pack a {
+    position: relative;
+    z-index: 3;
+}
+
+
+.icons svg, .pack svg {
+    width: 100%;
+    aspect-ratio: 1/1;
+    height: auto;
+}

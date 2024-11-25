@@ -1,0 +1,7 @@
+{
+  "name": "Icon finder",
+  "description": "Search and import icons with ease",
+  "code": "/penpot-plugins/icon-finder/plugin.js",
+  "icon": "/penpot-plugins/icon-finder/icon.png",
+  "permissions": ["content:write", "content:read"]
+}
