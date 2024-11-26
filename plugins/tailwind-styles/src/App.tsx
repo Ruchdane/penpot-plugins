@@ -1,15 +1,14 @@
 import { Tools } from "./panels/Tools.tsx";
-import { useState } from "react";
+import { Wrapper } from "@libs/ui";
 import { Shadows } from "./panels/Shadows.tsx";
 import { Colors } from "./panels/Colors.tsx";
 import { Texts } from "./panels/Texts.tsx";
+import { useState } from "react";
 
 export function App() {
-  const url = new URL(window.location.href);
   const [panel, setPanel] = useState<null | string>(null);
-
   return (
-    <div data-theme={url.searchParams.get("theme") ?? "dark"}>
+    <Wrapper>
       {panel !== null && (
         <button
           onClick={() => setPanel(null)}
@@ -22,6 +21,6 @@ export function App() {
       {panel === "shadows" && <Shadows />}
       {panel === "colors" && <Colors />}
       {panel === "text" && <Texts />}
-    </div>
+    </Wrapper>
   );
 }
