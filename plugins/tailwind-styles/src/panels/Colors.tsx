@@ -73,7 +73,7 @@ export function ColorPalette({
         <button
           onClick={() => importColor(key, colors[key])}
           key={key}
-          className=" cursor-pointer bg-transparent p-0 m-0 w-full body-xs transition hover:scale-130"
+          className=" cursor-pointer w-full body-xs transition hover:scale-130"
         >
           <div
             className="aspect-[50/40] w-full rounded-sm"

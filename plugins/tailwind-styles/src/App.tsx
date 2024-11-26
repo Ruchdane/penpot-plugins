@@ -13,7 +13,7 @@ export function App() {
       {panel !== null && (
         <button
           onClick={() => setPanel(null)}
-          className="absolute top-1 left-1 p-2  rounded-full bg-transparent bg-primary hover:(bg-quaternary text-accent) cursor-pointer transition text-secondary"
+          className="absolute top-1 left-1 p-2  rounded-full bg-primary hover:(bg-quaternary text-accent) cursor-pointer transition text-secondary"
         >
           <div className="i-ri-arrow-left-line size-5"></div>
         </button>

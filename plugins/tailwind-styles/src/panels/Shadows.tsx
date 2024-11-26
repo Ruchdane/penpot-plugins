@@ -28,7 +28,7 @@ export function Shadows() {
           <button
             onClick={() => applyShadow(name)}
             key={name}
-            className="group cursor-pointer bg-transparent text-secondary aspect-square flex flex-col items-center justify-center gap-1 text-xs hover:text-accent hover:scale-120 transition"
+            className="group cursor-pointer text-secondary aspect-square flex flex-col items-center justify-center gap-1 text-xs hover:text-accent hover:scale-120 transition"
           >
             <div>{name === "DEFAULT" ? "base" : name}</div>
             <div

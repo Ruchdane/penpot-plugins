@@ -239,7 +239,7 @@ code, .code-font {
     --spacing-40: calc(var(--spacing-4) * 10)
 }
 
-:where([data-appearance]:is(button),[role=tab]:is(button)) {
+:where([data-appearance]:is(.button),[role=tab]:is(.button)) {
     border: 2px solid transparent;
     font-weight: 500;
     font-size: 12px;
@@ -258,7 +258,7 @@ code, .code-font {
 }
 
 [data-theme=dark] {
-    [data-appearance=primary]:is(button) {
+    [data-appearance=primary]:is(.button) {
         background-color: var(--da-primary);
         border: 2px solid transparent;
         color: var(--db-secondary);
@@ -309,7 +309,7 @@ code, .code-font {
         }
     }
 
-    [data-appearance=secondary]:is(button) {
+    [data-appearance=secondary]:is(.button) {
         background-color: var(--db-tertiary);
         color: var(--df-secondary);
 
@@ -335,7 +335,7 @@ code, .code-font {
 }
 
 [data-theme=light] {
-    [data-appearance=primary]:is(button) {
+    [data-appearance=primary]:is(.button) {
         background-color: var(--la-primary);
         color: var(--lb-primary);
 
@@ -389,7 +389,7 @@ code, .code-font {
         }
     }
 
-    [data-appearance=secondary]:is(button) {
+    [data-appearance=secondary]:is(.button) {
         background-color: var(--lb-tertiary);
         color: var(--lf-secondary);
 

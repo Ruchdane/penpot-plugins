@@ -30,11 +30,11 @@ export function Tool({
 }>) {
   return (
     <button
-      className=" bg-transparent text-secondary hover:text-accent  cursor-pointer relative aspect-square grid place-items-center"
+      className=" text-secondary hover:text-accent  cursor-pointer relative aspect-square grid place-items-center"
       onClick={() => onClick(name.toLowerCase())}
     >
       {children}
-      <div className="absolute left-0 right-0 text-center bottom-2 body-sm">
+      <div className="absolute left-0 right-0 text-center bottom-2 body-s">
         {name}
       </div>
     </button>
