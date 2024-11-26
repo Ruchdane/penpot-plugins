@@ -29,12 +29,14 @@ export function IconPacks({ onClick }: Props) {
                 <a
                   className="color-inherit hover:text-accent"
                   href={pack.license.url}
+                  target="_blank"
                 >
                   {pack.license.name}
                 </a>
               </div>
               <a
                 className="body-s flex items-center gap-1 color-inherit hover:text-accent"
+                target="_blank"
                 href={pack.site}
               >
                 Site <div className="i-ri-link" />

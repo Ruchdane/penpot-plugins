@@ -11,7 +11,6 @@ penpot.on("themechange", (theme) => {
 });
 
 penpot.ui.onMessage((message: PluginMessageEvent) => {
-  console.log("onMessage", message);
   if (message.type === "create-svg") {
     const g = penpot.createShapeFromSvg(message.content);
     if (!g) {

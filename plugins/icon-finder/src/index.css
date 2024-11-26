@@ -1,6 +1,3 @@
-.pack-title {
-
-}
 .pack-title::after {
     content:'';
     z-index: 1;
