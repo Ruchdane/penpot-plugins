@@ -1,11 +1,18 @@
-import type {FC, ReactNode} from "react";
-import {BootstrapPreview, BoxPreview, FeatherPreview, HeroPreview, RemixPreview} from "./components/Previews.tsx";
+import type { FC, ReactNode } from "react";
+import {
+  BootstrapPreview,
+  BoxPreview,
+  FeatherPreview,
+  HeroPreview,
+  PhosphorPreview,
+  RemixPreview,
+} from "./components/Previews.tsx";
 
 export type IconComponent = FC<{ size: number }>;
 
 export type IconPack = {
   name: string;
-  filled?: (name: string) => boolean; // This font has a filled variation for icons
+  filled?: ((name: string) => boolean) | Record<string, unknown>; // This font has a filled variation for icons
   loader: () => Promise<Record<string, IconComponent>>;
   preview: () => ReactNode;
   license: { name: string; url: string };
@@ -22,6 +29,25 @@ export const packs = [
     license: { name: "Apache", url: "https://remixicon.com/license" },
     site: "https://remixicon.com/",
     preview: RemixPreview,
+  },
+  {
+    name: "Phosphor",
+    filled: { weight: "fill" },
+    loader: () =>
+      (import("@phosphor-icons/react") as any).then((r: any) => {
+        // Phosphor module includes more than just icons, filter out any non-component element
+        return Object.fromEntries(
+          Object.entries(r).filter(
+            (entry) => !["SSR", "IconBase", "IconContext"].includes(entry[0]),
+          ),
+        );
+      }) as Promise<Record<string, IconComponent>>,
+    license: {
+      name: "MIT",
+      url: "https://github.com/phosphor-icons/homepage/blob/master/LICENSE",
+    },
+    site: "https://phosphoricons.com/",
+    preview: PhosphorPreview,
   },
   {
     name: "Bootstrap",

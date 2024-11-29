@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { useToggle } from "@libs/hooks";
 import { renderToString } from "react-dom/server";
 import type { PluginMessageEvent } from "../model.ts";
+import { ErrorBoundary } from "react-error-boundary";
 
 type Props = {
   pack: IconPack;
@@ -16,6 +17,10 @@ export function IconList({ pack, onBack }: Props) {
     null as null | Record<string, FC<{ size: number }>>,
   );
   const [filled, toggleFilled] = useToggle(false);
+  let iconProps = {};
+  if (typeof pack.filled === "object" && filled) {
+    iconProps = pack.filled;
+  }
 
   useEffect(() => {
     pack.loader().then(setIcons);
@@ -26,7 +31,11 @@ export function IconList({ pack, onBack }: Props) {
       return null;
     }
     return Object.keys(icons)
-      .filter((name) => (pack.filled ? pack.filled(name) === filled : true))
+      .filter((name) =>
+        pack.filled && typeof pack.filled === "function"
+          ? pack.filled(name) === filled
+          : true,
+      )
       .filter(searchFilter(search))
       .map((name) => ({
         title: kebabize(name),
@@ -89,7 +98,12 @@ export function IconList({ pack, onBack }: Props) {
                 title={item.title}
                 onClick={() => onSelect(item)}
               >
-                <item.Icon size={20} />
+                <ErrorBoundary
+                  onError={() => console.log(`Cannot render ${item.title}`)}
+                  fallback={<></>}
+                >
+                  <item.Icon size={20} {...iconProps} />
+                </ErrorBoundary>
               </button>
             );
           })}

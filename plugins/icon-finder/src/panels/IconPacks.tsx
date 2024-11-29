@@ -48,6 +48,16 @@ export function IconPacks({ onClick }: Props) {
           </div>
         );
       })}
+      <div className="py-4 body-xs text-center opacity-60">
+        Want a new pack ?{" "}
+        <a
+          href="https://github.com/Grafikart/penpot-plugins/issues"
+          className="underline"
+          target="_blank"
+        >
+          create an issue
+        </a>
+      </div>
     </div>
   );
 }
