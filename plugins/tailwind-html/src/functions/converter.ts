@@ -9,6 +9,7 @@ import { backgroundToClasses } from "../converters/background.ts";
 import { flexChildToClasses } from "../converters/flex.ts";
 import { radiusToClasses } from "../converters/radius.ts";
 import { shadowToClasses } from "../converters/shadow.ts";
+import { gridChildToClasses } from "../converters/grid.ts";
 
 /**
  * Convert Penpot shape into an HTML formatted string
@@ -24,10 +25,9 @@ export function shapeToHTML(shape: Shape): string {
  */
 function shapeToElement(shape: Shape): Element {
   let element = { tag: "div", children: [], classes: [] } as Element;
-  console.log(shape.type);
   if (shape.type === "text") {
     element = textToElement(shape);
-  } else if (shape.type === "board" && shape.flex) {
+  } else if (shape.type === "board") {
     element = boardToElement(shape);
   } else if (shape.type === "ellipse") {
     element = ellipsisToElement(shape);
@@ -43,6 +43,7 @@ function shapeToElement(shape: Shape): Element {
   element.classes.push(...positionToClasses(shape, element.tag === "svg"));
   element.classes.push(...backgroundToClasses(shape));
   element.classes.push(...flexChildToClasses(shape));
+  element.classes.push(...gridChildToClasses(shape));
   element.classes.push(...radiusToClasses(shape));
   element.classes.push(...shadowToClasses(shape));
 

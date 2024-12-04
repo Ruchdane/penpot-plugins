@@ -68,10 +68,6 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
   let width = `[${Math.round(shape.width)}px]`;
   let height = `[${Math.round(shape.height)}px]`;
 
-  if (shape.name === "icon") {
-    console.log(shape);
-  }
-
   if (!forceFixed && objectGet(shape, "horizontalSizing") === "auto") {
     width = `max`;
   }

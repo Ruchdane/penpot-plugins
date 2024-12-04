@@ -9,9 +9,7 @@ A repository containing all my penpot plugins within a monorepo
 
 ### Tailwind HTML
 
-- [ ] Grid layout
 - [ ] Non flex group
-- [ ] Gradient background
 - [ ] Limit the depth ?
 - [ ] Overflow (not available in the API ?)
 - [ ] Borders

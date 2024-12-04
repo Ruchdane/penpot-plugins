@@ -1,4 +1,4 @@
-import type { FlexLayout, Shape } from "@penpot/plugin-types";
+import type { FlexLayout, GridLayout, Shape } from "@penpot/plugin-types";
 import { directionalClass } from "../functions/values.ts";
 import { withPrefix } from "../functions/string.ts";
 import { filterStringOnly } from "../functions/array.ts";
@@ -15,39 +15,56 @@ export function flexToClasses(flex: FlexLayout): string[] {
     cls.push("flex-wrap");
   }
 
-  // Alignment
-  cls.push(
-    withPrefix("items-", flex.alignItems?.replace("space-", ""), {
-      ignored: "stretch",
-    }),
-  );
-  cls.push(
-    withPrefix("justify-", flex.justifyContent?.replace("space-", ""), {
-      ignored: "stretch",
-    }),
-  );
+  cls.push(...layoutClasses(flex));
+
+  return filterStringOnly(cls);
+}
+
+export function layoutClasses(l: GridLayout | FlexLayout): (string | null)[] {
+  const cls: (string | null)[] = ["grid"];
 
   // Spacing
   cls.push(
     ...directionalClass({
       prefix: "p",
-      top: flex.topPadding,
-      bottom: flex.bottomPadding,
-      left: flex.leftPadding,
-      right: flex.rightPadding,
+      top: l.topPadding,
+      bottom: l.bottomPadding,
+      left: l.leftPadding,
+      right: l.rightPadding,
     }),
   );
   cls.push(
     ...directionalClass({
       prefix: "gap-",
-      top: flex.rowGap,
-      bottom: flex.rowGap,
-      left: flex.columnGap,
-      right: flex.columnGap,
+      top: l.rowGap,
+      bottom: l.rowGap,
+      left: l.columnGap,
+      right: l.columnGap,
     }),
   );
 
-  return filterStringOnly(cls);
+  // Alignment
+  cls.push(
+    withPrefix("items-", l.alignItems?.replace("space-", ""), {
+      ignored: "stretch",
+    }),
+  );
+  cls.push(
+    withPrefix("justify-", l.justifyContent?.replace("space-", ""), {
+      ignored: "stretch",
+    }),
+  );
+  cls.push(
+    withPrefix("justify-items-", l.justifyItems?.replace("space-", ""), {
+      ignored: "stretch",
+    }),
+  );
+  cls.push(
+    withPrefix("content-", l.alignContent?.replace("space-", ""), {
+      ignored: "stretch",
+    }),
+  );
+  return cls;
 }
 
 /**
