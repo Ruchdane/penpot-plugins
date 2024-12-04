@@ -14,19 +14,19 @@ export function hasKey(object: object, key: string): key is keyof object {
   return key in object;
 }
 
-export function objectGet<T extends object, K extends keyof T>(
+export function objectGet<T extends object | undefined, K extends keyof T>(
   obj: T,
   key: K,
 ): T[K];
-export function objectGet<T extends object, K extends string>(
+export function objectGet<T extends object | undefined, K extends string>(
   obj: T,
   key: K,
 ): undefined;
-export function objectGet<T extends object, K extends keyof T | string>(
-  obj: T,
-  key: K,
-): K extends keyof T ? T[K] : undefined {
+export function objectGet<
+  T extends object | undefined,
+  K extends keyof T | string,
+>(obj: T, key: K): K extends keyof T ? T[K] : undefined {
   return (
-    key in obj ? (obj as T)[key as keyof T] : undefined
+    obj && key in obj ? (obj as any)[key as keyof T] : undefined
   ) as K extends keyof T ? T[K] : undefined;
 }

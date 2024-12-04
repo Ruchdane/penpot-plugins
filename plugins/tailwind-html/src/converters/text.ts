@@ -62,30 +62,28 @@ function sizeClasses({
  * Convert a text shape into an HTML element with tailwind classes
  */
 export function textToElement(text: Text): Element {
-  const classes = [];
+  const cls = [];
 
   if (text.fontStyle === "italic") {
-    classes.push("italic");
+    cls.push("italic");
   }
 
   if (Array.isArray(text.fills)) {
     const color = fillColor(text.fills);
     if (color) {
-      classes.push(
-        withPrefix("text-", colorToTailwind(color.hex, color.opacity)),
-      );
+      cls.push(withPrefix("text-", colorToTailwind(color.hex, color.opacity)));
     }
   }
 
   if (text.fontWeight !== "400") {
     const weight = weightDict[text.fontWeight];
-    classes.push(`font-${weight ?? text.fontWeight}`);
+    cls.push(`font-${weight ?? text.fontWeight}`);
   }
 
   if (
     ["uppercase", "lowercase", "capitalize"].includes(text.textTransform ?? "")
   ) {
-    classes.push(text.textTransform);
+    cls.push(text.textTransform);
   }
 
   if (
@@ -93,14 +91,16 @@ export function textToElement(text: Text): Element {
       text.textDecoration ?? "",
     )
   ) {
-    classes.push(text.textDecoration);
+    cls.push(text.textDecoration);
   }
 
-  classes.push(...sizeClasses(text));
+  cls.push(withPrefix("text-", text.align ?? "left", { ignored: "left" }));
+
+  cls.push(...sizeClasses(text));
 
   return {
     tag: text.growType === "auto-width" ? "span" : "div",
-    classes: filterStringOnly(classes),
+    classes: filterStringOnly(cls),
     children: [text.characters],
   };
 }

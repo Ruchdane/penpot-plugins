@@ -1,5 +1,4 @@
 import type { Shape } from "@penpot/plugin-types";
-import { pxToTailwind } from "../functions/values.ts";
 import { objectGet } from "../functions/object.ts";
 
 export function positionToClasses(
@@ -66,19 +65,33 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
     return cls;
   }
 
-  let width = "max";
-  let height = "max";
+  let width = `[${Math.round(shape.width)}px]`;
+  let height = `[${Math.round(shape.height)}px]`;
 
-  if (forceFixed || objectGet(shape, "horizontalSizing") === "fix") {
-    width = pxToTailwind(shape.width);
+  if (shape.name === "icon") {
+    console.log(shape);
   }
 
-  if (forceFixed || objectGet(shape, "verticalSizing") === "fix") {
-    height = pxToTailwind(shape.height);
+  if (!forceFixed && objectGet(shape, "horizontalSizing") === "auto") {
+    width = `max`;
   }
 
-  if (shape.name === "Button") {
-    console.log({ shape, forceFixed, width, height });
+  if (!forceFixed && objectGet(shape, "horizontalSizing") === "auto") {
+    height = `max`;
+  }
+
+  if (
+    !forceFixed &&
+    objectGet(shape.layoutChild, "horizontalSizing") === "fill"
+  ) {
+    width = "full";
+  }
+
+  if (
+    !forceFixed &&
+    objectGet(shape.layoutChild, "verticalSizing") === "fill"
+  ) {
+    height = "full";
   }
 
   if (width === height) {

@@ -8,7 +8,11 @@ export function flexToClasses(flex: FlexLayout): string[] {
 
   cls.push("flex");
   if (flex.dir !== "row") {
-    cls.push("flex-" + flex.dir);
+    cls.push("flex-" + flex.dir.replaceAll("column", "col"));
+  }
+
+  if (flex.wrap === "wrap") {
+    cls.push("flex-wrap");
   }
 
   // Alignment
@@ -24,7 +28,6 @@ export function flexToClasses(flex: FlexLayout): string[] {
   );
 
   // Spacing
-  console.log({ flex });
   cls.push(
     ...directionalClass({
       prefix: "p",
@@ -36,7 +39,7 @@ export function flexToClasses(flex: FlexLayout): string[] {
   );
   cls.push(
     ...directionalClass({
-      prefix: "gap",
+      prefix: "gap-",
       top: flex.rowGap,
       bottom: flex.rowGap,
       left: flex.columnGap,

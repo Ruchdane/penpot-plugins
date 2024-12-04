@@ -1,6 +1,6 @@
 import TailwindColors from "tailwindcss/colors";
 import { objectKeys } from "./object.ts";
-import { Fill } from "@penpot/plugin-types";
+import { type Color, Fill } from "@penpot/plugin-types";
 import { config } from "../config.ts";
 
 // Build a dictionnary of all tailwind colors indexed by hex value
@@ -27,7 +27,14 @@ function forceFullColorHex(color: string): string {
   return color;
 }
 
-export function colorToTailwind(color: string, opacity: number = 1): string {
+export function isSameColor(a: Color, b: Color): boolean {
+  return a.color === b.color && a.opacity === b.opacity;
+}
+
+export function colorToTailwind(
+  color: string = "#000",
+  opacity: number = 1,
+): string {
   const name = colorDict.get(color.toLowerCase()) ?? `[${color.toLowerCase()}]`;
   return opacity < 1 ? `${name}/${opacity * 100}` : name;
 }

@@ -7,6 +7,8 @@ import { positionToClasses } from "../converters/position.ts";
 import { ellipsisToElement } from "../converters/ellipsis.ts";
 import { backgroundToClasses } from "../converters/background.ts";
 import { flexChildToClasses } from "../converters/flex.ts";
+import { radiusToClasses } from "../converters/radius.ts";
+import { shadowToClasses } from "../converters/shadow.ts";
 
 /**
  * Convert Penpot shape into an HTML formatted string
@@ -22,6 +24,7 @@ export function shapeToHTML(shape: Shape): string {
  */
 function shapeToElement(shape: Shape): Element {
   let element = { tag: "div", children: [], classes: [] } as Element;
+  console.log(shape.type);
   if (shape.type === "text") {
     element = textToElement(shape);
   } else if (shape.type === "board" && shape.flex) {
@@ -30,11 +33,18 @@ function shapeToElement(shape: Shape): Element {
     element = ellipsisToElement(shape);
   } else if (shape.type === "group" && isSVG(shape)) {
     element.tag = "svg";
+  } else if (shape.type === "path" && shape.fills[0].fillImage) {
+    element.tag = "img";
+    element.attrs = {
+      src: `https://picsum.photos/${shape.width}/${shape.height}`,
+    };
   }
 
   element.classes.push(...positionToClasses(shape, element.tag === "svg"));
   element.classes.push(...backgroundToClasses(shape));
   element.classes.push(...flexChildToClasses(shape));
+  element.classes.push(...radiusToClasses(shape));
+  element.classes.push(...shadowToClasses(shape));
 
   // Shared properties
   if (shape.blur?.value) {

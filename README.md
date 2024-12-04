@@ -12,11 +12,7 @@ A repository containing all my penpot plugins within a monorepo
 - [ ] Grid layout
 - [ ] Non flex group
 - [ ] Gradient background
-- [ ] Shadows
-- [ ] Images
 - [ ] Limit the depth ?
-- [ ] Border radius
-- [ ] Flex wrap
-- [ ] Overflow
+- [ ] Overflow (not available in the API ?)
 - [ ] Borders
 - [ ] Find a way to handle vite compilation (to avoid "import" in the output plugin.js file)
