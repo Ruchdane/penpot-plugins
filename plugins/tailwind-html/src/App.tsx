@@ -1,6 +1,7 @@
 import { Wrapper } from "@libs/ui";
 import { useEffect, useRef, useState } from "react";
 import type { PluginMessageEvent } from "./model.ts";
+import { copyText } from "./functions/clipboard.ts";
 
 export function App() {
   const [html, setHTML] = useState("");
@@ -26,13 +27,7 @@ export function App() {
   }, []);
 
   const copy = () => {
-    window.parent.postMessage(
-      {
-        type: "copy",
-        content: code.current?.textContent ?? "",
-      } satisfies PluginMessageEvent,
-      "*",
-    );
+    copyText((code.current?.innerText ?? "").replaceAll(" ", " "));
     setCopied(true);
     timer.current = setTimeout(() => {
       setCopied(false);
@@ -48,7 +43,7 @@ export function App() {
           <div
             ref={code}
             style={{ fontFamily: "monospace" }}
-            className="body-xs code"
+            className="py-2 body-xs code"
             dangerouslySetInnerHTML={{ __html: html }}
           />
           <button

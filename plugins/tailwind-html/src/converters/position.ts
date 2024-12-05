@@ -80,10 +80,7 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
   }
 
   // Auto-growing texts has no width / height
-  if (
-    objectGet(shape, "growType") === "auto-width" ||
-    objectGet(shape, "growType") === "auto-height"
-  ) {
+  if (objectGet(shape, "growType") === "auto-width") {
     return cls;
   }
 
@@ -115,7 +112,9 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
     cls.push(`size-${width}`);
   } else {
     cls.push(`w-${width}`);
-    cls.push(`h-${height}`);
+    if (objectGet(shape, "growType") !== "auto-height") {
+      cls.push(`h-${height}`);
+    }
   }
   return cls;
 }

@@ -26,7 +26,6 @@ export function shapeToHTML(shape: Shape): string {
  * Convert Penpot shape into HTML element
  */
 function shapeToElement(shape: Shape): Element {
-  console.log("shape", shape.name, shape);
   let element = { tag: "div", children: [], classes: [] } as Element;
   if (shape.type === "text") {
     element = textToElement(shape);

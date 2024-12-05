@@ -99,7 +99,7 @@ export function textToElement(text: Text): Element {
   cls.push(...sizeClasses(text));
 
   return {
-    tag: text.growType === "auto-width" ? "span" : "div",
+    tag: "div",
     classes: filterStringOnly(cls),
     children: [text.characters],
   };

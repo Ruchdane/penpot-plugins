@@ -8,9 +8,5 @@ export type PluginMessageEvent =
       content: string;
     }
   | {
-      type: "copy";
-      content: string;
-    }
-  | {
       type: "ready";
     };

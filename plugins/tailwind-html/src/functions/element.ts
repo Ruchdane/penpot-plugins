@@ -20,11 +20,18 @@ export function elementToString(element: Element | string, space = ""): string {
         .join("<br/>") +
       `<br/>${space}`;
   }
-  return `
+  const selfClose = element.tag === "img";
+  const html = `
     ${space}
     <span class="tag">&lt;${element.tag ?? "div"}</span>
-    ${attrToString(element.attrs)}<span class="attr">class=</span><span class="str">"${element.classes.join(" ")}"</span><span class="tag">&gt;</span>${children}<span class="tag">&lt;/${element.tag ?? "div"}&gt;</span>
-  `;
+    ${attrToString({
+      ...element.attrs,
+      class: element.classes.join(" "),
+    })}<span class="tag">${selfClose ? "/&gt;" : "&gt;"}</span>`;
+  if (selfClose) {
+    return html;
+  }
+  return `${html}${children}<span class="tag">&lt;/${element.tag ?? "div"}&gt;</span>`;
 }
 
 export function attrToString(attrs?: Record<string, string>): string {
@@ -36,5 +43,5 @@ export function attrToString(attrs?: Record<string, string>): string {
       ([name, value]) =>
         `<span class="attr">${name}=</span><span class="str">"${value}"</span>`,
     )
-    .join(" ")} `;
+    .join(" ")}`;
 }
