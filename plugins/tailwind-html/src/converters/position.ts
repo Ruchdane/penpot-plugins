@@ -1,5 +1,6 @@
 import type { Shape } from "@penpot/plugin-types";
 import { objectGet } from "../functions/object.ts";
+import { directionalClass } from "../functions/values.ts";
 
 export function positionToClasses(
   shape: Shape,
@@ -15,13 +16,18 @@ export function positionToClasses(
   }
 
   // If one child is absolute, this element should be relative
-  if ("children" in shape && shape.children.find((c) => isShapeAbsolute(c))) {
+  if (
+    !isAbsolute &&
+    (isShapeRelative(shape) ||
+      ("children" in shape && shape.children.find((c) => isShapeAbsolute(c))))
+  ) {
     cls.push("relative");
   }
 
   // Compute position for absolute positioning
   if (isAbsolute) {
     if (
+      shape.constraintsVertical === null ||
       shape.constraintsVertical === "top" ||
       shape.constraintsVertical === "topbottom"
     ) {
@@ -36,6 +42,7 @@ export function positionToClasses(
       );
     }
     if (
+      shape.constraintsHorizontal === null ||
       shape.constraintsHorizontal === "left" ||
       shape.constraintsHorizontal === "leftright"
     ) {
@@ -60,8 +67,23 @@ export function positionToClasses(
 function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
   const cls: string[] = [];
 
+  if (shape.layoutChild) {
+    cls.push(
+      ...directionalClass({
+        prefix: "m",
+        top: shape.layoutChild.topMargin,
+        bottom: shape.layoutChild.bottomMargin,
+        left: shape.layoutChild.leftMargin,
+        right: shape.layoutChild.rightMargin,
+      }),
+    );
+  }
+
   // Auto-growing texts has no width / height
-  if (objectGet(shape, "growType") === "auto-width") {
+  if (
+    objectGet(shape, "growType") === "auto-width" ||
+    objectGet(shape, "growType") === "auto-height"
+  ) {
     return cls;
   }
 
@@ -71,8 +93,7 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
   if (!forceFixed && objectGet(shape, "horizontalSizing") === "auto") {
     width = `max`;
   }
-
-  if (!forceFixed && objectGet(shape, "horizontalSizing") === "auto") {
+  if (!forceFixed && objectGet(shape, "verticalSizing") === "auto") {
     height = `max`;
   }
 
@@ -99,7 +120,23 @@ function sizeToClasses(shape: Shape, forceFixed: boolean): string[] {
   return cls;
 }
 
+function isShapeRelative(shape?: Shape | null): boolean {
+  if (!shape) {
+    return false;
+  }
+  if (shape && shape.type === "group") {
+    return true;
+  }
+  if (shape && !objectGet(shape, "flex") && !objectGet(shape, "grid")) {
+    return true;
+  }
+  return false;
+}
+
 function isShapeAbsolute(shape: Shape): boolean {
+  if (isShapeRelative(shape.parent)) {
+    return true;
+  }
   return Boolean(
     ("layoutCell" in shape && shape.layoutCell?.absolute) ||
       ("layoutChild" in shape && shape.layoutChild?.absolute),

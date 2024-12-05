@@ -16,7 +16,6 @@ export function elementToString(element: Element | string, space = ""): string {
     children =
       `<br/>` +
       [...element.children]
-        .reverse()
         .map((e) => elementToString(e, space + tabspace))
         .join("<br/>") +
       `<br/>${space}`;

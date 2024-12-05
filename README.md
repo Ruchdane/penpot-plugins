@@ -9,8 +9,6 @@ A repository containing all my penpot plugins within a monorepo
 
 ### Tailwind HTML
 
-- [ ] Non flex group
 - [ ] Limit the depth ?
 - [ ] Overflow (not available in the API ?)
-- [ ] Borders
 - [ ] Find a way to handle vite compilation (to avoid "import" in the output plugin.js file)

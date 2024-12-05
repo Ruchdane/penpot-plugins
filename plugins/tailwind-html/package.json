@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "hot": "vite",
-    "dev": "vite build --watch & vite preview",
-    "build": "tsc && vite build --emptyOutDir",
+    "dev": "vite build --watch --mode=dev & vite preview",
+    "preview": "vite preview",
+    "build": "tsc && vite build --emptyOutDir && esbuild ../../dist/tailwind-html/plugin.js --bundle --outdir=../../dist/tailwind-html/ --allow-overwrite",
     "test": "vitest"
   },
   "dependencies": {
