@@ -6,6 +6,7 @@ export function App() {
   const [html, setHTML] = useState("");
   const [isCopied, setCopied] = useState(false);
   const timer = useRef<null | ReturnType<typeof setTimeout>>(null);
+  const code = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.parent.postMessage(
       {
@@ -25,23 +26,17 @@ export function App() {
   }, []);
 
   const copy = () => {
-    if (!navigator.clipboard) {
-      alert("Clipboard API not supported");
-      return;
-    }
-
-    // Write the HTML content to clipboard
-    navigator.clipboard
-      .writeText(html)
-      .then(() => {
-        setCopied(true);
-        timer.current = setTimeout(() => {
-          setCopied(false);
-        }, 2000);
-      })
-      .catch((err) => {
-        alert(`Failed to copy: ${err}`);
-      });
+    window.parent.postMessage(
+      {
+        type: "copy",
+        content: code.current?.textContent ?? "",
+      } satisfies PluginMessageEvent,
+      "*",
+    );
+    setCopied(true);
+    timer.current = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   };
 
   const isEmpty = !Boolean(html);
@@ -51,6 +46,7 @@ export function App() {
       {html && (
         <>
           <div
+            ref={code}
             style={{ fontFamily: "monospace" }}
             className="body-xs code"
             dangerouslySetInnerHTML={{ __html: html }}
